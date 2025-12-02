@@ -6,6 +6,7 @@ import java.awt.*;
 
 import SimplePOS.model.Order;
 import SimplePOS.services.OrderCounter;
+import shared.OrderRepo;
 
 
 public class POSFrame extends JFrame {
@@ -40,6 +41,16 @@ public class POSFrame extends JFrame {
         addItemButton(buttons, "Yang Chao Rice", 210.99);
 
         add(buttons, BorderLayout.WEST);
+
+        JButton sendBtn = new JButton("Send to Kitchen");
+        sendBtn.addActionListener(e -> {
+            for(Order a : orderCounter.getOrders()) {
+                OrderRepo.add(a);
+            }
+            JOptionPane.showMessageDialog(this, "Order sent to kitchen.");
+        });
+
+        add(sendBtn, BorderLayout.SOUTH);
 
         setVisible(true);
     }

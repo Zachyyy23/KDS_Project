@@ -1,10 +1,9 @@
 package SimplePOS.services;
 
 import SimplePOS.model.Order;
-import SimplePOS.program.POSApp;
-import java.util.Scanner;
+import shared.OrderRepo;
 
-import static SimplePOS.program.POSApp.orders;
+import java.util.Scanner;
 
 public class AddToOrder {
 
@@ -29,7 +28,7 @@ public class AddToOrder {
         inputOrder.nextLine();
 
         Order a = new Order(nextID, name, quantity, cost, "Pending");
-        orders.add(a);
+        OrderRepo.add(a);
         nextID++;
 
         System.out.println("Added new Order: " + a);
