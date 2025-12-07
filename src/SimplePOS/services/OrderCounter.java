@@ -20,10 +20,9 @@ public class OrderCounter {
             }
         }
 
-        Order newOrder = new Order (nextID++, itemName, 1, price, "Pending" );
+        Order newOrder = new Order (nextID++, itemName, 1, price, "Pending");
         orders.add(newOrder);
         return newOrder;
-
     }
 
     public ArrayList<Order> getOrders() {

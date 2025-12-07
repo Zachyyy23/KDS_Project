@@ -2,7 +2,6 @@ package SimplePOS.program;
 
 import java.util.ArrayList;
 
-import SimplePOS.gui.POSFrame;
 import SimplePOS.model.Order;
 import SimplePOS.services.OrderCounter;
 

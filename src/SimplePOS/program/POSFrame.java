@@ -1,13 +1,11 @@
-package SimplePOS.gui;
+package SimplePOS.program;
 
 import javax.swing.*;
-import java.util.ArrayList;
 import java.awt.*;
 
 import SimplePOS.model.Order;
 import SimplePOS.services.OrderCounter;
 import shared.OrderRepo;
-
 
 public class POSFrame extends JFrame {
 
@@ -18,7 +16,7 @@ public class POSFrame extends JFrame {
         this.orderCounter = orderCounter;
 
         setTitle("POS");
-        setSize(750, 500);
+        setSize(750,500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
@@ -26,8 +24,7 @@ public class POSFrame extends JFrame {
         orderDisplay.setEditable(false);
         add(new JScrollPane(orderDisplay), BorderLayout.CENTER);
 
-
-        JPanel buttons  = new JPanel();
+        JPanel buttons = new JPanel();
         buttons.setLayout(new GridLayout(3,3));
 
         addItemButton(buttons, "Hell's Burger", 715.99);
@@ -55,6 +52,14 @@ public class POSFrame extends JFrame {
         setVisible(true);
     }
 
+    private void refreshDisplay() {
+        StringBuilder sb = new StringBuilder();
+        for (Order a : orderCounter.getOrders()) {
+            sb.append(a).append("\n");
+        }
+        orderDisplay.setText(sb.toString());
+    }
+
     private void addItemButton(JPanel panel, String name, double price) {
 
         JButton btn = new JButton(name);
@@ -65,13 +70,5 @@ public class POSFrame extends JFrame {
         });
 
         panel.add(btn);
-    }
-
-    private void refreshDisplay() {
-        StringBuilder sb = new StringBuilder();
-        for (Order a: orderCounter.getOrders()) {
-            sb.append(a).append("\n");
-        }
-        orderDisplay.setText(sb.toString());
     }
 }

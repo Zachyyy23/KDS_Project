@@ -1,9 +1,9 @@
 package Launcher;
 
-import SimplePOS.gui.POSFrame;
 import SimplePOS.model.Order;
+import SimplePOS.program.POSFrame;
 import SimplePOS.services.OrderCounter;
-import KDS.gui.KDSFrame;
+import KDS.program.KDSFrame;
 
 import java.util.ArrayList;
 

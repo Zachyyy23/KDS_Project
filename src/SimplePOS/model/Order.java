@@ -4,14 +4,14 @@ public class Order {
     private int orderID;
     private String name;
     private int quantity;
-    private double cost;
+    private double price;
     private String status;
 
-    public Order(int orderID, String name, int quantity, double cost, String status) {
+    public Order(int orderID, String name, int quantity, double price, String status) {
         this.orderID = orderID;
         this.name = name;
         this.quantity = quantity;
-        this.cost = cost;
+        this.price = price;
         this.status = status;
     }
 
@@ -39,12 +39,12 @@ public class Order {
         this.quantity = quantity;
     }
 
-    public double getCost() {
-        return cost;
+    public double getPrice() {
+        return price;
     }
 
-    public void setCost(double cost) {
-        this.cost = cost;
+    public void setPrice(double price) {
+        this.price = price;
     }
 
     public String getStatus() {
@@ -57,8 +57,6 @@ public class Order {
 
     @Override
     public String toString() {
-        return orderID + " | " + name + " | x" + quantity + " | ₱" + cost + " | " + status;
+        return orderID + " | " + name + " | x" + quantity + " | ₱" + price + " | " + status;
     }
 }
-
-
