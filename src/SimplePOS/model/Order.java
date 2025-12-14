@@ -6,6 +6,7 @@ public class Order {
     private int quantity;
     private double price;
     private String status;
+    private long timeStart;
 
     public Order(int orderID, String name, int quantity, double price, String status) {
         this.orderID = orderID;
@@ -13,6 +14,7 @@ public class Order {
         this.quantity = quantity;
         this.price = price;
         this.status = status;
+        this.timeStart = System.currentTimeMillis();
     }
 
     public int getOrderID() {
@@ -53,6 +55,14 @@ public class Order {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public long getTimeStart() {
+        return timeStart;
+    }
+
+    public void setTimeStart(long timeStart) {
+        this.timeStart = timeStart;
     }
 
     @Override

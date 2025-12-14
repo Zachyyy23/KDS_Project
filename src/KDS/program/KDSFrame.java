@@ -32,6 +32,9 @@ public class KDSFrame extends JFrame {
         listPanel.removeAll();
 
         for (Order a : KDSService.getOrders()) {
+            if (a.getStatus().equals("Done")) {
+                continue;
+            }
             listPanel.add(new OrderTicket(a));
         }
 
@@ -42,56 +45,75 @@ public class KDSFrame extends JFrame {
     private class OrderTicket extends JPanel {
 
         private Order order;
-        private JLabel label;
 
         public OrderTicket(Order order) {
             this.order = order;
 
-            setPreferredSize(new Dimension(250, 230));
+            setPreferredSize(new Dimension(250,230));
             setLayout(new BorderLayout());
             setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
-            setBackground(Color.WHITE);
 
-
-            JPanel header = new JPanel(new BorderLayout());
-            header.setPreferredSize(new Dimension(250, 40));
-            header.setBackground(new Color(66, 133, 244));
-/*
-
-            JLabel title = new JLabel(order.getCustomerName());
-            title.setForeground(Color.WHITE);
-            title.setBorder(BorderFactory.createEmptyBorder(5, 8, 5, 5));
-
-
-            header.add(title, BorderLayout.CENTER);
-            add(header, BorderLayout.NORTH);
-*/
+            updateColorByTime();
 
             JPanel body = new JPanel();
             body.setLayout(new BoxLayout(body, BoxLayout.Y_AXIS));
-            body.setBackground(Color.WHITE);
-            body.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
+            body.setBackground(getBackground());
+            body.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-/*
-            for (String item : order.getItems()) {
-                JLabel lbl = new JLabel("• " + item);
-                lbl.setFont(new Font("SansSerif", Font.BOLD, 13));
-                body.add(lbl);
-            }
-*/
+            JLabel item = new JLabel(order.getName());
+            item.setFont(new Font("SansSerif", Font.BOLD, 16));
+
+            JLabel qty = new JLabel("Qty: " + order.getQuantity());
+            JLabel status = new JLabel("Status: " + order.getStatus());
+
+            long elapsedMinutes = (System.currentTimeMillis() - order.getTimeStart()) / 60000;
+            JLabel time = new JLabel("Time: " + elapsedMinutes + " min");
+
+            body.add(item);
+            body.add(Box.createVerticalStrut(5));
+            body.add(qty);
+            body.add(status);
 
             add(body, BorderLayout.CENTER);
 
+            JButton actionBtn = new JButton();
+            updateButtonText(actionBtn);
 
-            JButton done = new JButton("Done");
-            done.addActionListener(e -> {
-                KDSService.markDone(order);
+            actionBtn.addActionListener(e -> {
+                if (order.getStatus().equals("Pending")) {
+                    KDSService.markPreparing(order);
+                } else {
+                    KDSService.markDone(order);
+                }
+                updateButtonText(actionBtn);
             });
 
-
             JPanel footer = new JPanel();
-            footer.add(done);
+            footer.add(actionBtn);
             add(footer, BorderLayout.SOUTH);
+        }
+
+        private void updateColorByTime() {
+            long elapsedMillis = System.currentTimeMillis() - order.getTimeStart();
+            long elapsedMinutes = elapsedMillis / 60000;
+
+            if (elapsedMinutes >= 30) {
+                setBackground(new Color(244, 67, 54));   // Red
+            } else if (elapsedMinutes >= 20) {
+                setBackground(new Color(255, 152, 0));   // Orange
+            } else if (elapsedMinutes >= 5) {
+                setBackground(new Color(255, 235, 59));  // Yellow
+            } else {
+                setBackground(Color.WHITE);
+            }
+        }
+
+        private void updateButtonText(JButton btn) {
+            if (order.getStatus().equals("Pending")) {
+                btn.setText("Prepare");
+            } else if (order.getStatus().equals("Preparing")) {
+                btn.setText("Done");
+            }
         }
     }
 }
